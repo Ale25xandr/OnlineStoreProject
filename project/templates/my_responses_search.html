@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+<form action="" method="get">
+            {% csrf_token %}
+            {{filterset.form.as_table}}
+           &nbsp;<input  type="submit"  value="Search"/>
+        </form>
+
+{% for r in re %}
+<hr>
+                    <ul>
+                        <li>Дата добавления: {{r.Date|date:'d.m.y H:i'}}</li>
+                        <li>Объявление: {{r.ads}}</li>
+                        <li><a href="{% url 'r_det' pk=r.id %}">{{r.Text|truncatechars:5}}</a></li>
+                        <li>Автор:&nbsp;{{r.a}}</li>
+                        {% if r.Accepted %}
+                            <li>Принят</li>
+                        {% else %}
+                            <li>Не принят</li>
+                        {% endif %}
+                        <a href="{% url 'del_resp' pk=r.id%}"><button>Удалить</button></a>
+                    </ul>
+                <hr>
+{% endfor %}
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+
+   {{ page_obj.number }}
+
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% endblock content %}

@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+
+
+{% block content %}
+<h1>Это действие недоступно, пока Вы не подтвердите свою учётную запись! Для этого введите код, присланный на Ваш e-mail</h1>
+<a class="button" href="{% url 'code' %}"><button type="submit">Ввести код</button></a>
+{% endblock content %}

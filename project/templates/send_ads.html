@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+{% load i18n %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="Content-type: text/html;charset=utf-8">
+
+    <title>Document</title>
+</head>
+<body>
+    <h2>Эти объявления могут Вас заинтересовать</h2>
+    {% if ads %}
+    {% for i in ads %}
+    <p>{{i.Heading}}</p>
+<p><a href="http://127.0.0.1:8000/store/ads/{{i.id}}"></a></p>
+    {% endfor %}
+{% else %}
+<h2>Нет объявлений</h2>
+{% endif %}
+</body>
+</html>

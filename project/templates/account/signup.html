@@ -1,0 +1,17 @@
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+
+
+{% block content %}
+<h1>{% trans 'Registration' %}</h1>
+<p>&nbsp;</p>
+<form action="" method="post">
+            {% csrf_token %}
+    {% for f in form %}
+    <p><label class = "form-label" for="{{f.id_for_label}}">{{f.label}}:&nbsp;</label>{{ f }}</p>
+    <div class="form-error">{{ f.errors }}</div>
+    {% endfor %}
+            <a class="button" href="http://127.0.0.1:8000/store/ads/"><button type="submit">{% trans 'Register' %}</button></a>
+</form>
+{% endblock content %}

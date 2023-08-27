@@ -1,0 +1,15 @@
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+
+{% block content %}
+<h1>{% trans 'Authorization' %}</h1>
+<p>&nbsp;</p>
+<form action="" method="post">
+            {% csrf_token %}
+        <table>
+            {{form.as_table}}
+        </table>
+            <button type="submit">{% trans 'Enter' %}</button>
+</form>
+{% endblock content %}

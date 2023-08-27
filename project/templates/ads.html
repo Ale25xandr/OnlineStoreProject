@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+{% extends 'flatpages/default.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+Ads
+{% endblock title %}
+
+{% block content %}
+<h1>Объявления</h1>
+<form action="" method="get">
+            {% csrf_token %}
+            {{filterset.form.as_table}}
+           &nbsp;<input  type="submit"  value="Search"/>
+        </form>
+<a href="http://127.0.0.1:8000/store/ads/"><button>Сбросить</button></a>
+{% if ads %}
+
+                {% for a in ads %}
+                <hr>
+                    <ul>
+                        <a href="http://127.0.0.1:8000/store/ads/{{a.id}}">{{ a.Heading }}</a>
+                            {{ a.Content|safe }}
+                        <li>Дата добавления: {{a.Date|date:'d.m.y H:i'}}</li>
+                        <li>Описание: {{a.Description}}</li>
+                        <li>Категория: {{a.Category}}</li>
+                        <li>Продавец: {{a.Author}}</li>
+                        <li>Откликов: {{a.res}}</li>
+                    </ul>
+                <hr>
+                {% endfor %}
+   {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+
+   {{ page_obj.number }}
+
+
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+{% else %}
+<h1>Нет объявлений</h1>
+{% endif %}
+
+
+{% endblock content %}

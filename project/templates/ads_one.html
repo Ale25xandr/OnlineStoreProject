@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+{% load static %}
+
+{% block title %}
+
+{% endblock title %}
+
+{% block content %}
+<h1><center>{{ ads_one.Heading }}</center></h1>
+
+{{ ads_one.Content|safe }}
+<li>Дата добавления: {{ads_one.Date|date:'d.m.y H:i'}}</li>
+                        <li>Категория: {{ads_one.Category}}</li>
+                        <li>Продавец: {{ads_one.Author}}</li>
+<hr>
+{% if user == request.user %}
+<p><a href="{% url 'a_u' pk=ads_one.id %}"><button>Редактировать</button></a></p>
+{% endif %}
+<hr>
+{{ads_one.Description}}
+{% if user != request.user %}
+<p><a href="{% url 'r_c' pk=ads_one.id %}"><button>Оставить отклик</button></a></p>
+{% endif %}
+<hr>
+{% for r in res %}
+<hr>
+                    <ul>
+                        <li>Дата добавления: {{r.Date|date:'d.m.y H:i'}}</li>
+                        <li><a href="{% url 'r_det' pk=r.id %}">{{r.Text|truncatechars:25}}</a></li>
+                        <li>Автор:&nbsp;{{r.a}}</li>
+                        {% if r.Accepted %}
+                            <li>Принят</li>
+                        {% elif not r.Accepted %}
+                            <li>Не принят</li>
+                        {% endif %}
+                    </ul>
+                <hr>
+{% endfor %}
+{% endblock content %}

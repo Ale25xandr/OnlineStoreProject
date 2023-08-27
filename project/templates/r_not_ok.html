@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+{% extends 'flatpages/default.html' %}
+{% load i18n %}
+
+
+
+{% block content %}
+<h1>Введён неверный код подтверждения! Повторите ввод!</h1>
+<a class="button" href="{% url 'code' %}"><button type="submit">Повторить ввод</button></a>
+{% endblock content %}
