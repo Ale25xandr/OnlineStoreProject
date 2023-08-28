@@ -40,12 +40,7 @@ class Response(models.Model):
         return User.objects.get(username=self.author)
 
 
-class User_1(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    ads = models.ForeignKey(Ads, on_delete=models.CASCADE, null=True, blank=True)
-
-
 class Code(models.Model):
-    code = models.IntegerField(max_length=6, unique=True, blank=False)
+    code = models.IntegerField(unique=True, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     is_ok = models.BooleanField(default=False, blank=True)

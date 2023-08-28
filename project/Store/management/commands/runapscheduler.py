@@ -8,7 +8,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.mail import send_mail, send_mass_mail, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.core.management.base import BaseCommand
 from django.template.loader import render_to_string
 from django_apscheduler import util

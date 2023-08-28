@@ -1,5 +1,4 @@
 import django_filters
-import requests
 from django_filters import FilterSet, DateTimeFilter
 from .models import Response, Ads
 from django.forms import DateTimeInput
