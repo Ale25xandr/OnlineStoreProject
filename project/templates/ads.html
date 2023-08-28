@@ -13,7 +13,7 @@ Ads
 <form action="" method="get">
             {% csrf_token %}
             {{filterset.form.as_table}}
-           &nbsp;<input  type="submit"  value="Search"/>
+           &nbsp;<input  type="submit"  value="Поиск"/>
         </form>
 <a href="http://127.0.0.1:8000/store/ads/"><button>Сбросить</button></a>
 {% if ads %}

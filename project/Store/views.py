@@ -1,12 +1,11 @@
 import random
 
-from django.contrib.auth import logout, authenticate, login
+from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
-from django.http import HttpResponseRedirect, request, HttpResponse, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
-from django.template import context
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView, CreateView, DeleteView, UpdateView
 
@@ -160,9 +159,8 @@ class ResponseDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'r'
 
     def get_context_data(self, **kwargs):
-        r = self.get_object()
         context = super().get_context_data()
-        author = Response.objects.get(id=r.id)
+        author = Response.objects.get(id=self.get_object().id)
         context['author'] = author.ads.Author
         context['user'] = self.request.user
         return context
@@ -196,12 +194,10 @@ class ResponseCreate(LoginRequiredMixin, CreateView):
         form.instance.author = a
         i = self.request.META['HTTP_REFERER'].split('/')
         A = Ads.objects.get(id=int(i[-1]))
-        print(A)
         form.instance.ads = A
         form.save()
         author = A.Author
         email = User.objects.get(username=author).email
-        print(email)
         result = super().form_valid(form)
         r = self.object.pk
         send_mail(
@@ -214,8 +210,7 @@ class ResponseCreate(LoginRequiredMixin, CreateView):
         return result
 
     def get_success_url(self):
-        i = self.request.META['HTTP_REFERER'].split('/')
-        return reverse_lazy('ads_one', kwargs={'pk': i[-1]})
+        return reverse_lazy('ads_one', kwargs={'pk': self.get_object().id})
 
 
 class Registration_code(CreateView):
@@ -259,13 +254,17 @@ class AdsUpdate(LoginRequiredMixin, UpdateView):
         user = self.request.user
         r = self.get_object()
         author = Ads.objects.get(id=r.id).Author
-        print(author)
         if user != author:
             raise PermissionDenied()
         else:
             return HttpResponse(render(request, 'ads_update.html', context={'pk': r.id,
-                                                                            'form': AdsFormUpdate}))
+                                                                            'form': AdsFormUpdate(data={
+                                                                                'Heading': self.get_object().Heading,
+                                                                                'Description':
+                                                                                    self.get_object().Description,
+                                                                                'Content': self.get_object().Content,
+                                                                                'Category': self.get_object().Category
+                                                                            })}))
 
     def get_success_url(self):
-        i = int(self.request.META['HTTP_REFERER'][-1])
-        return reverse_lazy('ads_one', kwargs={'pk': i})
+        return reverse_lazy('ads_one', kwargs={'pk': self.get_object().id})

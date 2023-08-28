@@ -1,5 +1,6 @@
 import datetime
 import logging
+import random
 from datetime import datetime, timedelta
 import pytz
 
@@ -29,7 +30,8 @@ def my_job():
                    tzinfo=pytz.UTC)
     d_2 = d_1 - timedelta(days=7)
     ads = Ads.objects.filter(Date__range=[d_2, d_1])
-    print(ads)
+    ads_1 = random.sample(list(ads), 5)
+    print(ads_1)
     user = User.objects.all()
     email = []
     for i in range(0, len(user)):
@@ -48,7 +50,7 @@ def my_job():
     )
 
     html = render_to_string('send_ads.html',
-                            context={'ads': ads})
+                            context={'ads': ads_1})
 
     print(html)
 

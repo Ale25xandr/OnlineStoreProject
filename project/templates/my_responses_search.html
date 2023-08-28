@@ -11,7 +11,7 @@
 <form action="" method="get">
             {% csrf_token %}
             {{filterset.form.as_table}}
-           &nbsp;<input  type="submit"  value="Search"/>
+           &nbsp;<input  type="submit"  value="Поиск"/>
         </form>
 
 {% for r in re %}
